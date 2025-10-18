@@ -6,7 +6,7 @@
 /*   By: tjorge-l < tjorge-l@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:44:18 by tjorge-l          #+#    #+#             */
-/*   Updated: 2025/09/16 13:44:19 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2025/10/18 15:57:53 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ class MutantStack
 
 		T		&top()
 		{
-			return (vec[vec.size() - 1]);
+			return (vec.at(vec.size() - 1));
 		};
 
 		bool	empty()
@@ -64,7 +64,8 @@ class MutantStack
 		}
 		void	pop()
 		{
-			vec.pop_back();
+			if (!vec.empty())
+				vec.pop_back();
 		}
 
 		
@@ -83,40 +84,48 @@ class MutantStack
 
 				T	&operator*() const
 				{
+					if (!mPtr)
+						throw std::runtime_error("Dereferencing null iterator");
 					return (*mPtr);
 				}
 
 				T	*operator->(){
+					if (!mPtr)
+						throw std::runtime_error("Accessing null iterator");
 					return mPtr;
 				}
 
 				// --it
-				iterator operator--()
+				iterator &operator--()
 				{
-					--mPtr;
+					if (mPtr)
+						--mPtr;
 					return (*this);
 				}
 
 				// it--
-				T 	*operator--(T)
+				iterator operator--(int)
 				{
 					iterator tmp = *this;
-					--(*this);
+					if (mPtr)
+						--(*this);
 					return (tmp);
 				}
 
 				// ++it
-				iterator operator++()
+				iterator &operator++()
 				{
-					++mPtr;
+					if (mPtr)
+						++mPtr;
 					return (*this);
 				}
 
 				// it++
-				T 	*operator++(T)
+				iterator operator++(int)
 				{
 					iterator tmp = *this;
-					++(*this);
+					if (mPtr)
+						++(*this);
 					return (tmp);
 				}
 
@@ -134,17 +143,21 @@ class MutantStack
 
 		T & operator[] (size_t index)
 		{
-			return vec[index];
+			return vec.at(index);
 		}
 
 
 		iterator begin()
 		{
-			return (iterator(&vec[0]));
+			if (vec.empty())
+				return (NULL);
+			return (iterator(&vec.at(0)));
 		}
 
 		iterator end()
 		{
+			if (vec.empty())
+				return (NULL);
 			return (iterator(&vec[vec.size()]));
 		}
 

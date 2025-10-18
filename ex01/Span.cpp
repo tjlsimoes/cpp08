@@ -6,7 +6,7 @@
 /*   By: tjorge-l < tjorge-l@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:50:30 by tjorge-l          #+#    #+#             */
-/*   Updated: 2025/09/15 17:50:30 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2025/10/18 15:00:01 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ Span::Span(const Span & other)
 	length = other.length;
 	sorted = other.sorted;
 }
+// std::vector<T,Allocator>::assign
+// Replaces the contents of the container.
 
 Span	&Span::operator=(const Span &other)
 {
@@ -52,7 +54,6 @@ void	Span::addRange()
 	if (array.size() == length)
 		throw Span::FullArrayException();
 	array.resize(length);
-	// std::iota(array.begin(), array.begin() + length - 1, 42);
 	std::generate(array.begin(), array.end(), &generate_sequence);
 	sorted = false;
 }
@@ -61,9 +62,11 @@ int	Span::longestSpan()
 {
 	if (array.size() <= 1)
 		throw Span::InsufficientElementsException();
-	std::sort(array.begin(), array.end());
-	// std::qsort(array.data(), array.size(), sizeof(array[0]), difference);
-	sorted = true;
+	if (!sorted)
+	{
+		std::sort(array.begin(), array.end());
+		sorted = true;
+	}
 	return (array[array.size() - 1] - array[0]);
 }
 
@@ -76,7 +79,6 @@ int	Span::shortestSpan()
 	if (!sorted)
 	{
 		std::sort(array.begin(), array.end());
-		// std::qsort(array.data(), array.size(), sizeof(array[0]), difference);
 		sorted = true;
 	}
 	diff = array[array.size() - 1] - array[array.size() - 2];
@@ -98,11 +100,6 @@ void	Span::print()
 	
 }
 
-// int	Span::generate_sequence()
-// {
-// 	static int	i = 42;
-// 	return (i++);
-// }
 
 int	Span::generate_sequence()
 {
@@ -111,23 +108,8 @@ int	Span::generate_sequence()
 		std::srand(time(0));
 		seeded = true;
 	}
-	// static int	i = rand() % 100;
-	// srand(time(NULL));
-	// i += rand() % 100;
-	return (rand() % 100);
+	return (rand() % 1000);
 }
 
 Span::~Span()
 {}
-
-int difference(const void* x, const void* y)
-{
-	const int arg1 = *static_cast<const int*>(x);
-	const int arg2 = *static_cast<const int*>(y);
-
-	if (arg1 < arg2)
-		return -1;
-	if (arg1 > arg2)
-		return 1;
-	return 0;
-}

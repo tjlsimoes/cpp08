@@ -6,7 +6,7 @@
 /*   By: tjorge-l < tjorge-l@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:50:31 by tjorge-l          #+#    #+#             */
-/*   Updated: 2025/09/15 17:50:32 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2025/10/18 14:56:09 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <exception>
 #include <vector>
 #include <algorithm>
-#include <cstdlib>
 #include <numeric>
 #include <iostream>
 #include <stdlib.h>
